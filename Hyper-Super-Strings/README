@@ -1,0 +1,33 @@
+From: https://www.interviewstreet.com/challenges/dashboard/#problem/4f802ebfad2a1
+
+String A is called "Super String" if and only if:
+
+A contains only letters a, b, c, d, e, f, g, h, i and j;
+For any i,j A[i] has lower ascii code than A[j] where 0 <= i < j < length(A)
+Given a set of Super Strings H, a Hyper String is a string that can be constructed by concatenation of some Super Strings of the set H. We can use each Super String as many times as we want.
+
+You are given the set H, you have to compute the number of Hyper Strings with length no more than M.
+
+Input:
+
+First line of input contains 2 integers, N ( the number of Super Strings in H ) and M 
+Next N lines describe the Super Strings in set H.
+N and M are no more than 100.
+
+Output:
+
+Output an integer which is the number of possible Hyper Strings that can be derived. Since it may not fit in 32bit integer, print the output module 1000000007. (i.e answer = answer % 1000000007)
+
+Sample Input
+
+2 3
+a
+ab
+
+Sample Output
+
+7
+
+Explanation
+
+In the first example all the Hyper Strings are : "" (a string with no characters), "a", "ab", "aa", "aaa", "aba", "aab".
