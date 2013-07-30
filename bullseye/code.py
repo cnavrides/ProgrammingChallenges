@@ -8,12 +8,16 @@ for case in range(cases):
 	rings = 0
 
 	while True:
-		nextArea = math.pi * ((radius + 1) ** 2 - radius ** 2)
-		if nextArea < paint:
+		nextArea = radius * 2 + 1
+		#nextArea = (radius + 1) ** 2 - radius ** 2
+		if nextArea <= paint:
 			paint -= nextArea
 			rings += 1
+			radius += 2
+			#print "paint:", paint, "next Area:", nextArea
 		else:
+			#print "nextArea:", nextArea
 			break
 
-	print rings
+	print "Case #%i: %i" % (case+1, rings)
 	
