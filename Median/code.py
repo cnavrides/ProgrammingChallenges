@@ -11,20 +11,19 @@ for z in range(N):
 			nums.remove(int(vals[1]))
 			l -= 1
 			if l == 0:
-				ms += "Wrong!\n"
+				print "Wrong!"
 			else:
 				if l % 2 == 0:
-					ms += '%f\n' %((nums[l/2]+nums[l/2-1])/2.0)
+					print '%.1f' %((nums[l/2]+nums[l/2-1])/2.0)
 				else:
-					ms += str(nums[l/2]) + '\n'
+					print str(nums[l/2]) 
 		else:
-			ms +=  "Wrong!\n"
+			print  "Wrong!"
 	else:
 		bisect.insort(nums, int(vals[1]))
 		l+=1
 		if l % 2 == 0:
-			ms += '%f\n' %((nums[l/2]+nums[l/2-1])/2.0)
+			print '%.1f' %((nums[l/2]+nums[l/2-1])/2.0)
 		else:
-			ms += str(nums[l/2]) + '\n'
+			print str(nums[l/2])
 
-print ms
