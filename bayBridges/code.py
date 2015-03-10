@@ -69,6 +69,7 @@ def intersect(id1, id2):
   l2_y = y3 - y4
   s = (-l1_y * (x1 - x3) + l1_x * (y1 - y3)) / (-l2_x * l1_y + l1_x * l2_y)
   t = ( l2_x * (y1 - y3) - l2_y * (x1 - x3)) / (-l2_x * l1_y + l1_x * l2_y)
+  print 'ids: %s, %s    s: %f, t: %f' % (id1, id2, s, t)
   if s >= 0 and s <= 1 and t >= 0 and t <= 1:
     return True
   return False
