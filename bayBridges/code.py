@@ -4,13 +4,18 @@ vals = []
 nodes = []
 class node:
   def __init__(self, points):
+    self.a = -1
     self.points = points
     self.blockers = []
     self.called = False
     self.isAlive = True
 
+class point:
+  def __init__(self, x = 0, y = 0):
+    self.x = x
+    self.y = y
 
-# recursively turn on/off
+# DFS search to see if this is better to remove or keep.
 def getDifference(val, multiplier=1.0):
   total = multiplier
   val.called = True
@@ -21,32 +26,33 @@ def getDifference(val, multiplier=1.0):
   val.called = False
   return total
 
+# DFS to delete the bridges deemed not necessary.
 def deleteRecursive(val, deleteThis = True):
   val.called = True
   for blocker in val.blockers:
-    if not vals[blocker].called and vals[blocker].isAlive:
+    if vals[blocker].isAlive:
       if deleteThis:
-        val.isAlive = False
+        vals[blocker].isAlive = False
       deleteRecursive(vals[blocker], False if deleteThis else True)
   val.called = False
 
-
+# Check if any of the blockers are still alive.
 def blockersAlive(blockers):
   for blocker in blockers:
-    print 'blockerAlive:', blocker, vals[blocker].isAlive
     if vals[blocker].isAlive:
       return True
   return False
 
+# Checks if there are blocking bridges still.
 def areBlockers():
-  count = 0
   for val in vals:
-
     if val.isAlive and blockersAlive(val.blockers):
-      print count, 'areBlockers: ', val.isAlive, val.blockers
       return True
-    count += 1
   return False
+
+# Are points A,B,C listed in counter clockwise order.
+def ccw(A,B,C):
+    return (C.y-A.y)*(B.x-A.x) > (B.y-A.y)*(C.x-A.x)
 
 # Returns True if the two lines intersect.
 def intersect(id1, id2):
@@ -62,49 +68,12 @@ def intersect(id1, id2):
   x4 = line2[1][0]
   y4 = line2[1][1]
 
-  l1_x = x2 - x1
-  l1_y = y2 - y1
+  A = point(x1, y1)
+  B = point(x2, y2)
+  C = point(x3, y3)
+  D = point(x4, y4)
+  return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 
-  l2_x = x3 - x4
-  l2_y = y3 - y4
-  s = (-l1_y * (x1 - x3) + l1_x * (y1 - y3)) / (-l2_x * l1_y + l1_x * l2_y)
-  t = ( l2_x * (y1 - y3) - l2_y * (x1 - x3)) / (-l2_x * l1_y + l1_x * l2_y)
-  print 'ids: %s, %s    s: %f, t: %f' % (id1, id2, s, t)
-  if s >= 0 and s <= 1 and t >= 0 and t <= 1:
-    return True
-  return False
-  '''
-{
-    float s1_x, s1_y, s2_x, s2_y;
-    s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
-    s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
-
-    float s, t;
-    s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
-    t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
-
-    if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-    {
-        // Collision detected
-        if (i_x != NULL)
-            *i_x = p0_x + (t * s1_x);
-        if (i_y != NULL)
-            *i_y = p0_y + (t * s1_y);
-        return 1;
-    }
-
-    return 0; // No collision
-  '''
-  x12 = x1 - x2;
-  x34 = x3 - x4;
-  y12 = y1 - y2;
-  y34 = y3 - y4;
-
-  c = x12 * y34 - y12 * x34;
-
-  if abs(c) < 0.01:
-    return False
-  return True
 
 def main(argv=None):
   test_cases = open(sys.argv[1], 'r')
@@ -115,16 +84,9 @@ def main(argv=None):
   for i in range(len(vals)-1):
     for j in range(i+1, len(vals)):
       if intersect(i, j):
-        print "INTERSECT"
-        print "      ", vals[i].points
-        print "      ", vals[j].points
         vals[i].blockers.append(j)
         vals[j].blockers.append(i)
-  count = 0
-  for val in vals:
-    print count, val.blockers
-    count += 1
-  '''
+
   while(areBlockers()):
     for val in vals:
       if val.isAlive and blockersAlive(val.blockers):
@@ -134,9 +96,9 @@ def main(argv=None):
           deleteRecursive(val, True)
 
   for i in range(len(vals)):
-    if val.isAlive:
+    if vals[i].isAlive:
       print i+1
-  '''
+
 
   test_cases.close()
 if __name__ == "__main__":
