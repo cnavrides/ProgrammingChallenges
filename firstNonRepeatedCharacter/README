@@ -1,0 +1,31 @@
+https://www.codeeval.com/open_challenges/12/
+
+FIRST NON-REPEATED CHARACTER
+CHALLENGE DESCRIPTION:
+
+
+Write a program which finds the first non-repeated character in a string.
+
+INPUT SAMPLE:
+
+The first argument is a path to a file. The file contains strings.
+
+For example:
+
+
+1
+2
+yellow
+tooth
+OUTPUT SAMPLE:
+
+Print to stdout the first non-repeated character, one per line.
+
+For example:
+
+
+1
+2
+y
+h
+
